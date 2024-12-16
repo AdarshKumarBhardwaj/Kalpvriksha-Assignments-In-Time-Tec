@@ -17,7 +17,7 @@ int operator_precedence(char op)
     return 0;
 }
 
-int perform_operatation(int a, int b, char op, int *error)
+float perform_operation(float a, float b, char op, int *error)
 {
     switch (op)
     {
@@ -39,22 +39,24 @@ int perform_operatation(int a, int b, char op, int *error)
         return 0;
     }
 }
-void process_operator(int *numbers, int *top_numbers, char *operators, int *top_operators, int *error)
+
+void process_operator(float *numbers, int *top_numbers, char *operators, int *top_operators, int *error)
 {
     if (*top_operators < 0 || *top_numbers < 1)
     {
         *error = 1;
         return;
     }
-    int b = numbers[(*top_numbers)--];
-    int a = numbers[(*top_numbers)--];
+    float b = numbers[(*top_numbers)--];
+    float a = numbers[(*top_numbers)--];
     char op = operators[(*top_operators)--];
-    numbers[++(*top_numbers)] = perform_operatation(a, b, op, error);
+    numbers[++(*top_numbers)] = perform_operation(a, b, op, error);
 }
 
-int evaluate_expression(const char *expression, int *error)
+float evaluate_expression(const char *expression, int *error)
 {
-    int numbers[100], top_numbers = -1;
+    float numbers[100];
+    int top_numbers = -1;
     char operators[100];
     int top_operators = -1;
 
@@ -67,14 +69,29 @@ int evaluate_expression(const char *expression, int *error)
             continue;
         }
 
-        if (isdigit(expression[i]))
+        if (isdigit(expression[i]) || expression[i] == '.')
         {
-            int num = 0;
-            while (i < n && isdigit(expression[i]))
+            float num = 0;
+            int decimal_point = 0;
+            float divisor = 1;
+
+            while (i < n && (isdigit(expression[i]) || expression[i] == '.'))
             {
-                num = num * 10 + (expression[i] - '0');
+                if (expression[i] == '.')
+                {
+                    decimal_point = 1;
+                }
+                else
+                {
+                    num = num * 10 + (expression[i] - '0');
+                    if (decimal_point)
+                    {
+                        divisor *= 10;
+                    }
+                }
                 i++;
             }
+            num /= divisor;
             numbers[++top_numbers] = num;
         }
         else if (is_operator(expression[i]))
@@ -115,7 +132,7 @@ int main()
     input[strcspn(input, "\n")] = 0;
 
     int error = 0;
-    int result = evaluate_expression(input, &error);
+    float result = evaluate_expression(input, &error);
 
     if (error)
     {
@@ -123,7 +140,7 @@ int main()
     }
     else
     {
-        printf("Result: %d\n", result);
+        printf("Result: %.2f\n", result);
     }
 
     return 0;
