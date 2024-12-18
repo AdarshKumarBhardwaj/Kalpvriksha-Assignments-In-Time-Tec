@@ -108,6 +108,7 @@ void displayUsers()
     char name[50];
     printf("\n--- User Records ---\n");
 
+    // read the file and find user on the basis of id
     while (fscanf(file, "%d %s %d", &id, name, &age) != EOF)
     {
         printf("ID: %d, Name: %s, Age: %d\n", id, name, age);
