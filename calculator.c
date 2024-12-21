@@ -1,67 +1,84 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
+#include <ctype.h>
 
-int is_operator(char c)
+int isOperator(char character)
 {
-    return c == '+' || c == '-' || c == '*' || c == '/';
+    return character == '+' || character == '-' || character == '*' || character == '/';
 }
 
-int operator_precedence(char op)
+int operatorPrecedence(char operatorChar)
 {
-    if (op == '*' || op == '/')
-        return 2;
-    if (op == '+' || op == '-')
-        return 1;
-    return 0;
+    int precedence = 0;
+    if (operatorChar == '*' || operatorChar == '/')
+    {
+        precedence = 2;
+    }
+    else if (operatorChar == '+' || operatorChar == '-')
+    {
+        precedence = 1;
+    }
+    return precedence;
 }
 
-float perform_operation(float a, float b, char op, int *error)
+float performOperation(float operand1, float operand2, char operatorChar, int *error)
 {
-    switch (op)
+    float result = 0;
+    switch (operatorChar)
     {
     case '+':
-        return a + b;
+        result = operand1 + operand2;
+        break;
     case '-':
-        return a - b;
+        result = operand1 - operand2;
+        break;
     case '*':
-        return a * b;
+        result = operand1 * operand2;
+        break;
     case '/':
-        if (b == 0)
+        if (operand2 == 0)
         {
             *error = 1;
-            return 0;
         }
-        return a / b;
+        else
+        {
+            result = operand1 / operand2;
+        }
+        break;
     default:
         *error = 1;
-        return 0;
     }
+    return result;
 }
 
-void process_operator(float *numbers, int *top_numbers, char *operators, int *top_operators, int *error)
+void processOperator(float numbers[], int *topNumbers, char operators[], int *topOperators, int *error)
 {
-    if (*top_operators < 0 || *top_numbers < 1)
+    if (*topOperators < 0 || *topNumbers < 1)
     {
         *error = 1;
-        return;
     }
-    float b = numbers[(*top_numbers)--];
-    float a = numbers[(*top_numbers)--];
-    char op = operators[(*top_operators)--];
-    numbers[++(*top_numbers)] = perform_operation(a, b, op, error);
+    else
+    {
+        float operand2 = numbers[(*topNumbers)--];
+        float operand1 = numbers[(*topNumbers)--];
+        char operatorChar = operators[(*topOperators)--];
+        float result = performOperation(operand1, operand2, operatorChar, error);
+        if (!*error)
+        {
+            numbers[++(*topNumbers)] = result;
+        }
+    }
 }
 
-float evaluate_expression(const char *expression, int *error)
+float evaluateExpression(const char *expression, int *error)
 {
     float numbers[100];
-    int top_numbers = -1;
+    int topNumbers = -1;
     char operators[100];
-    int top_operators = -1;
+    int topOperators = -1;
 
-    int i = 0, n = strlen(expression);
-    while (i < n && !*error)
+    int i = 0, length = strlen(expression);
+    while (i < length && !*error)
     {
         if (isspace(expression[i]))
         {
@@ -71,37 +88,37 @@ float evaluate_expression(const char *expression, int *error)
 
         if (isdigit(expression[i]) || expression[i] == '.')
         {
-            float num = 0;
-            int decimal_point = 0;
+            float number = 0;
+            int hasDecimalPoint = 0;
             float divisor = 1;
 
-            while (i < n && (isdigit(expression[i]) || expression[i] == '.'))
+            while (i < length && (isdigit(expression[i]) || expression[i] == '.'))
             {
                 if (expression[i] == '.')
                 {
-                    decimal_point = 1;
+                    hasDecimalPoint = 1;
                 }
                 else
                 {
-                    num = num * 10 + (expression[i] - '0');
-                    if (decimal_point)
+                    number = number * 10 + (expression[i] - '0');
+                    if (hasDecimalPoint)
                     {
                         divisor *= 10;
                     }
                 }
                 i++;
             }
-            num /= divisor;
-            numbers[++top_numbers] = num;
+            number /= divisor;
+            numbers[++topNumbers] = number;
         }
-        else if (is_operator(expression[i]))
+        else if (isOperator(expression[i]))
         {
-            while (top_operators >= 0 &&
-                   operator_precedence(operators[top_operators]) >= operator_precedence(expression[i]))
+            while (topOperators >= 0 &&
+                   operatorPrecedence(operators[topOperators]) >= operatorPrecedence(expression[i]))
             {
-                process_operator(numbers, &top_numbers, operators, &top_operators, error);
+                processOperator(numbers, &topNumbers, operators, &topOperators, error);
             }
-            operators[++top_operators] = expression[i];
+            operators[++topOperators] = expression[i];
             i++;
         }
         else
@@ -110,18 +127,21 @@ float evaluate_expression(const char *expression, int *error)
         }
     }
 
-    while (top_operators >= 0 && !*error)
+    while (topOperators >= 0 && !*error)
     {
-        process_operator(numbers, &top_numbers, operators, &top_operators, error);
+        processOperator(numbers, &topNumbers, operators, &topOperators, error);
     }
 
-    if (top_numbers == 0 && !*error)
+    float result = 0;
+    if (topNumbers == 0 && !*error)
     {
-        return numbers[top_numbers];
+        result = numbers[topNumbers];
     }
-
-    *error = 1;
-    return 0;
+    else
+    {
+        *error = 1;
+    }
+    return result;
 }
 
 int main()
@@ -132,7 +152,7 @@ int main()
     input[strcspn(input, "\n")] = 0;
 
     int error = 0;
-    float result = evaluate_expression(input, &error);
+    float result = evaluateExpression(input, &error);
 
     if (error)
     {
