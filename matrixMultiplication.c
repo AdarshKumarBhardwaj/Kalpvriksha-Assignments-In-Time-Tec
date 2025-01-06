@@ -2,23 +2,22 @@
 #include <stdlib.h>
 
 // Function to multiply matrices
-void multiplyMatrices(int **A, int **B, int **C, int rowA, int colA, int rowB, int colB)
+void multiplyMatrices(int **matrix1, int **matrix2, int **resultMatrix, int rowMatrix1, int colMatrix1, int rowMatrix2, int colMatrix2)
 {
-
-    if (colA != rowB)
+    if (colMatrix1 != rowMatrix2)
     {
-        printf("Matrix multiplication not possible. Column of A must be equal to row of B.\n");
+        printf("Matrix multiplication not possible. Column of matrix1 must be equal to row of matrix2.\n");
         return;
     }
 
-    for (int rowIndexA = 0; rowIndexA < rowA; rowIndexA++)
+    for (int rowIndexMatrix1 = 0; rowIndexMatrix1 < rowMatrix1; rowIndexMatrix1++)
     {
-        for (int colIndexB = 0; colIndexB < colB; colIndexB++)
+        for (int colIndexMatrix2 = 0; colIndexMatrix2 < colMatrix2; colIndexMatrix2++)
         {
-            *(*(C + rowIndexA) + colIndexB) = 0;
-            for (int commonIndex = 0; commonIndex < colA; commonIndex++)
+            *(*(resultMatrix + rowIndexMatrix1) + colIndexMatrix2) = 0;
+            for (int commonIndex = 0; commonIndex < colMatrix1; commonIndex++)
             {
-                *(*(C + rowIndexA) + colIndexB) += *(*(A + rowIndexA) + commonIndex) * *(*(B + commonIndex) + colIndexB);
+                *(*(resultMatrix + rowIndexMatrix1) + colIndexMatrix2) += *(*(matrix1 + rowIndexMatrix1) + commonIndex) * *(*(matrix2 + commonIndex) + colIndexMatrix2);
             }
         }
     }
@@ -75,37 +74,37 @@ void freeMatrix(int **matrix, int rows)
 
 int main()
 {
-    int rowA, colA, rowB, colB;
+    int rowMatrix1, colMatrix1, rowMatrix2, colMatrix2;
 
-    printf("Enter rows and columns for Matrix A: ");
-    scanf("%d %d", &rowA, &colA);
+    printf("Enter rows and columns for matrix1: ");
+    scanf("%d %d", &rowMatrix1, &colMatrix1);
 
-    printf("Enter rows and columns for Matrix B: ");
-    scanf("%d %d", &rowB, &colB);
+    printf("Enter rows and columns for matrix2: ");
+    scanf("%d %d", &rowMatrix2, &colMatrix2);
 
-    // Dynamically allocate memory for matrices A, B, and C
-    int **A = createMatrix(rowA, colA);
-    int **B = createMatrix(rowB, colB);
-    int **C = createMatrix(rowA, colB);
+    // Dynamically allocate memory for matrices matrix1, matrix2, and resultMatrix
+    int **matrix1 = createMatrix(rowMatrix1, colMatrix1);
+    int **matrix2 = createMatrix(rowMatrix2, colMatrix2);
+    int **resultMatrix = createMatrix(rowMatrix1, colMatrix2);
 
-    inputMatrix(A, rowA, colA);
-    inputMatrix(B, rowB, colB);
+    inputMatrix(matrix1, rowMatrix1, colMatrix1);
+    inputMatrix(matrix2, rowMatrix2, colMatrix2);
 
-    printf("\nMatrix A:\n");
-    displayMatrix(A, rowA, colA);
+    printf("\nMatrix1:\n");
+    displayMatrix(matrix1, rowMatrix1, colMatrix1);
 
-    printf("\nMatrix B:\n");
-    displayMatrix(B, rowB, colB);
+    printf("\nMatrix2:\n");
+    displayMatrix(matrix2, rowMatrix2, colMatrix2);
 
     // Perform matrix multiplication
-    multiplyMatrices(A, B, C, rowA, colA, rowB, colB);
+    multiplyMatrices(matrix1, matrix2, resultMatrix, rowMatrix1, colMatrix1, rowMatrix2, colMatrix2);
 
     printf("\nResultant Matrix after multiplication:\n");
-    displayMatrix(C, rowA, colB);
+    displayMatrix(resultMatrix, rowMatrix1, colMatrix2);
 
-    freeMatrix(A, rowA);
-    freeMatrix(B, rowB);
-    freeMatrix(C, rowA);
+    freeMatrix(matrix1, rowMatrix1);
+    freeMatrix(matrix2, rowMatrix2);
+    freeMatrix(resultMatrix, rowMatrix1);
 
     return 0;
 }
