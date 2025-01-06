@@ -11,14 +11,14 @@ void multiplyMatrices(int **A, int **B, int **C, int rowA, int colA, int rowB, i
         return;
     }
 
-    for (int i = 0; i < rowA; i++)
+    for (int rowIndexA = 0; rowIndexA < rowA; rowIndexA++)
     {
-        for (int j = 0; j < colB; j++)
+        for (int colIndexB = 0; colIndexB < colB; colIndexB++)
         {
-            *(*(C + i) + j) = 0;
-            for (int k = 0; k < colA; k++)
+            *(*(C + rowIndexA) + colIndexB) = 0;
+            for (int commonIndex = 0; commonIndex < colA; commonIndex++)
             {
-                *(*(C + i) + j) += *(*(A + i) + k) * *(*(B + k) + j);
+                *(*(C + rowIndexA) + colIndexB) += *(*(A + rowIndexA) + commonIndex) * *(*(B + commonIndex) + colIndexB);
             }
         }
     }
@@ -28,9 +28,9 @@ void multiplyMatrices(int **A, int **B, int **C, int rowA, int colA, int rowB, i
 int **createMatrix(int rows, int cols)
 {
     int **matrix = (int **)malloc(rows * sizeof(int *));
-    for (int i = 0; i < rows; i++)
+    for (int rowIndex = 0; rowIndex < rows; rowIndex++)
     {
-        matrix[i] = (int *)malloc(cols * sizeof(int));
+        matrix[rowIndex] = (int *)malloc(cols * sizeof(int));
     }
     return matrix;
 }
@@ -39,12 +39,12 @@ int **createMatrix(int rows, int cols)
 void inputMatrix(int **matrix, int rows, int cols)
 {
     printf("Enter the elements of the matrix:\n");
-    for (int i = 0; i < rows; i++)
+    for (int rowIndex = 0; rowIndex < rows; rowIndex++)
     {
-        for (int j = 0; j < cols; j++)
+        for (int colIndex = 0; colIndex < cols; colIndex++)
         {
-            printf("Enter element (%d,%d): ", i + 1, j + 1);
-            scanf("%d", &*(*(matrix + i) + j));
+            printf("Enter element (%d,%d): ", rowIndex + 1, colIndex + 1);
+            scanf("%d", &*(*(matrix + rowIndex) + colIndex));
         }
     }
 }
@@ -53,11 +53,11 @@ void inputMatrix(int **matrix, int rows, int cols)
 void displayMatrix(int **matrix, int rows, int cols)
 {
     printf("Matrix:\n");
-    for (int i = 0; i < rows; i++)
+    for (int rowIndex = 0; rowIndex < rows; rowIndex++)
     {
-        for (int j = 0; j < cols; j++)
+        for (int colIndex = 0; colIndex < cols; colIndex++)
         {
-            printf("%d ", *(*(matrix + i) + j));
+            printf("%d ", *(*(matrix + rowIndex) + colIndex));
         }
         printf("\n");
     }
@@ -66,9 +66,9 @@ void displayMatrix(int **matrix, int rows, int cols)
 // Function to free dynamically allocated matrix memory
 void freeMatrix(int **matrix, int rows)
 {
-    for (int i = 0; i < rows; i++)
+    for (int rowIndex = 0; rowIndex < rows; rowIndex++)
     {
-        free(matrix[i]);
+        free(matrix[rowIndex]);
     }
     free(matrix);
 }
