@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Function to multiply matrices
-void multiplyMatrices(int **matrix1, int **matrix2, int **resultMatrix, int rowMatrix1, int colMatrix1, int rowMatrix2, int colMatrix2)
+void multiplyMatrices(int **matrix1, int **matrix2, int **resultMatrix, int dims[])
 {
+    int rowMatrix1 = dims[0], colMatrix1 = dims[1], rowMatrix2 = dims[2], colMatrix2 = dims[3];
+
     if (colMatrix1 != rowMatrix2)
     {
         printf("Matrix multiplication not possible. Column of matrix1 must be equal to row of matrix2.\n");
@@ -23,7 +24,6 @@ void multiplyMatrices(int **matrix1, int **matrix2, int **resultMatrix, int rowM
     }
 }
 
-// Function to create a matrix dynamically
 int **createMatrix(int rows, int cols)
 {
     int **matrix = (int **)malloc(rows * sizeof(int *));
@@ -34,7 +34,6 @@ int **createMatrix(int rows, int cols)
     return matrix;
 }
 
-// Function to input matrix elements
 void inputMatrix(int **matrix, int rows, int cols)
 {
     printf("Enter the elements of the matrix:\n");
@@ -48,7 +47,6 @@ void inputMatrix(int **matrix, int rows, int cols)
     }
 }
 
-// Function to display matrix
 void displayMatrix(int **matrix, int rows, int cols)
 {
     printf("Matrix:\n");
@@ -62,7 +60,6 @@ void displayMatrix(int **matrix, int rows, int cols)
     }
 }
 
-// Function to free dynamically allocated matrix memory
 void freeMatrix(int **matrix, int rows)
 {
     for (int rowIndex = 0; rowIndex < rows; rowIndex++)
@@ -82,7 +79,14 @@ int main()
     printf("Enter rows and columns for matrix2: ");
     scanf("%d %d", &rowMatrix2, &colMatrix2);
 
-    // Dynamically allocate memory for matrices matrix1, matrix2, and resultMatrix
+    if (colMatrix1 != rowMatrix2)
+    {
+        printf("Matrix multiplication not possible. Column of matrix1 must be equal to row of matrix2.\n");
+        return 0;
+    }
+
+    int dims[] = {rowMatrix1, colMatrix1, rowMatrix2, colMatrix2};
+
     int **matrix1 = createMatrix(rowMatrix1, colMatrix1);
     int **matrix2 = createMatrix(rowMatrix2, colMatrix2);
     int **resultMatrix = createMatrix(rowMatrix1, colMatrix2);
@@ -96,8 +100,7 @@ int main()
     printf("\nMatrix2:\n");
     displayMatrix(matrix2, rowMatrix2, colMatrix2);
 
-    // Perform matrix multiplication
-    multiplyMatrices(matrix1, matrix2, resultMatrix, rowMatrix1, colMatrix1, rowMatrix2, colMatrix2);
+    multiplyMatrices(matrix1, matrix2, resultMatrix, dims);
 
     printf("\nResultant Matrix after multiplication:\n");
     displayMatrix(resultMatrix, rowMatrix1, colMatrix2);
