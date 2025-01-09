@@ -1,71 +1,71 @@
 #include <stdio.h>
 #include <string.h>
 
-char sentence[100];
-char wordToReplace[] = "love";
-char replacementWord[] = "enjoy";
-char result[100];
+char inputSentence[100];
+char targetWord[] = "love";
+char substituteWord[] = "enjoy";
+char updatedSentence[100];
 
 void removeNewline()
 {
-    int i = 0;
-    while (sentence[i] != '\0')
+    int currentIndex = 0;
+    while (inputSentence[currentIndex] != '\0')
     {
-        if (sentence[i] == '\n')
+        if (inputSentence[currentIndex] == '\n')
         {
-            sentence[i] = '\0';
+            inputSentence[currentIndex] = '\0';
             break;
         }
-        i++;
+        currentIndex++;
     }
 }
 
 void replaceWord()
 {
-    int i = 0, j = 0, k, match = 0;
+    int sentenceIndex = 0, resultIndex = 0, tempIndex, isMatch = 0;
 
-    while (sentence[i] != '\0')
+    while (inputSentence[sentenceIndex] != '\0')
     {
-        if (sentence[i] == wordToReplace[0])
+        if (inputSentence[sentenceIndex] == targetWord[0])
         {
-            match = 1;
-            for (k = 0; wordToReplace[k] != '\0'; k++)
+            isMatch = 1;
+            for (tempIndex = 0; targetWord[tempIndex] != '\0'; tempIndex++)
             {
-                if (sentence[i + k] != wordToReplace[k])
+                if (inputSentence[sentenceIndex + tempIndex] != targetWord[tempIndex])
                 {
-                    match = 0;
+                    isMatch = 0;
                     break;
                 }
             }
-            if (match == 1)
+            if (isMatch == 1)
             {
-                for (k = 0; replacementWord[k] != '\0'; k++, j++)
+                for (tempIndex = 0; substituteWord[tempIndex] != '\0'; tempIndex++, resultIndex++)
                 {
-                    result[j] = replacementWord[k];
+                    updatedSentence[resultIndex] = substituteWord[tempIndex];
                 }
-                i += strlen(wordToReplace);
+                sentenceIndex += strlen(targetWord);
             }
         }
-        if (match == 0)
+        if (isMatch == 0)
         {
-            result[j++] = sentence[i++];
+            updatedSentence[resultIndex++] = inputSentence[sentenceIndex++];
         }
         else
         {
-            match = 0;
+            isMatch = 0;
         }
     }
-    result[j] = '\0';
+    updatedSentence[resultIndex] = '\0';
 }
 
 int main()
 {
     printf("Enter a sentence: ");
-    fgets(sentence, sizeof(sentence), stdin);
+    fgets(inputSentence, sizeof(inputSentence), stdin);
 
     removeNewline();
     replaceWord();
-    printf("Updated sentence: %s\n", result);
+    printf("Updated sentence: %s\n", updatedSentence);
 
     return 0;
 }
