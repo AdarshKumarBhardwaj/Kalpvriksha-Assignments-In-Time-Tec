@@ -33,16 +33,18 @@ void inputNames(char names[MAX_ROWS][MAX_COLUMNS][MAX_NAME_LENGTH + 1],int rowCo
      }
 }
 
-void processNames(char  names[MAX_ROWS][MAX_COLUMNS][MAX_NAME_LENGTH + 1],int rowCount,int colCount,int *vowelCount, char longestName[MAX_NAME_LENGTH + 1]){
+void processNames(char  names[MAX_ROWS][MAX_COLUMNS][MAX_NAME_LENGTH + 1],int values[3] ,char longestName[MAX_NAME_LENGTH + 1]){
+    int rowCount=values[0];
+    int colCount=values[1];
+    values[2]=0;
     int maxLength=0;
-    *vowelCount=0;
      for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
     {
         for (int colIndex = 0; colIndex < colCount; colIndex++)
         {
             if (startsWithVowel(names[rowIndex][colIndex]))
             {
-                (*vowelCount)++;
+                values[3]++;
             }
 
             int nameLength = strlen(names[rowIndex][colIndex]);
@@ -68,7 +70,8 @@ void printNamesArray(char names[MAX_ROWS][MAX_COLUMNS][MAX_NAME_LENGTH + 1],int 
 
 
 int main()
-{
+{   
+    int values[3];
     int rowCount, colCount;
     int vowelCount = 0;
     char longestName[MAX_NAME_LENGTH + 1];
@@ -77,13 +80,17 @@ int main()
     scanf("%d", &rowCount);
     printf("Enter number of columns: ");
     scanf("%d", &colCount);
-
+    
+    values[0]=rowCount;
+    values[1]=colCount;
+    values[2]=0;
+    
     if(!validateDeimension(rowCount,colCount)){
         return 1;
     }
     char names[MAX_ROWS][MAX_COLUMNS][MAX_NAME_LENGTH + 1];
     inputNames(names,rowCount,colCount);
-    processNames(names,rowCount,colCount,&vowelCount,  longestName);
+    processNames(names,values,longestName);
     printNamesArray(names,rowCount,colCount); 
     
     printf("\nNumber of names starting with a vowel: %d\n", vowelCount);
