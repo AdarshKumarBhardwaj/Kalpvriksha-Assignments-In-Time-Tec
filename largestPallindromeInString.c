@@ -1,69 +1,69 @@
 #include <stdio.h>
 
-int stringLength(char *str)
+int stringLength(char *string)
 {
     int length = 0;
-    while (str[length] != '\0')
+    while (string[length] != '\0')
     {
         length++;
     }
     return length;
 }
 
-int isPalindrome(char *str, int start, int end)
+int isPalindrome(char *string, int startIndex, int endIndex)
 {
-    while (start < end)
+    while (startIndex < endIndex)
     {
-        if (str[start] != str[end])
+        if (string[startIndex] != string[endIndex])
         {
             return 0;
         }
-        start++;
-        end--;
+        startIndex++;
+        endIndex--;
     }
     return 1;
 }
 
-void removeNewline(char *str)
+void removeNewline(char *string)
 {
-    int len = stringLength(str);
-    if (len > 0 && str[len - 1] == '\n')
+    int length = stringLength(string);
+    if (length > 0 && string[length - 1] == '\n')
     {
-        str[len - 1] = '\0';
+        string[length - 1] = '\0';
     }
 }
 
-void findLongestPalindrome(char *str)
+void findLongestPalindrome(char *string)
 {
     int maxLength = 1;
-    int start = 0;
-    int len = stringLength(str);
+    int startingPoint = 0;
+    int length = stringLength(string);
 
-    for (int i = 0; i < len; i++)
+    for (int startIndex = 0; startIndex < length; startIndex++)
     {
-        for (int j = i; j < len; j++)
+        for (int endIndex = startIndex; endIndex < length; endIndex++)
         {
-            if (isPalindrome(str, i, j) && (j - i + 1) > maxLength)
+            if (isPalindrome(string, startIndex, endIndex) && (endIndex - startIndex + 1) > maxLength)
             {
-                start = i;
-                maxLength = j - i + 1;
+                startingPoint = startIndex;
+                maxLength = endIndex - startIndex + 1;
             }
         }
     }
 
-    for (int i = start; i < start + maxLength; i++)
+    for (int currentIndex = startingPoint; currentIndex < startingPoint + maxLength; currentIndex++)
     {
-        printf("%c", str[i]);
+        printf("%c", string[currentIndex]);
     }
     printf("\n");
 }
 
 int main()
 {
-    char str[100];
+    char inputString[100];
     printf("Enter a string: ");
-    fgets(str, sizeof(str), stdin);
-    removeNewline(str);
-    findLongestPalindrome(str);
+    fgets(inputString, sizeof(inputString), stdin);
+    removeNewline(inputString);
+    findLongestPalindrome(inputString);
     return 0;
 }
