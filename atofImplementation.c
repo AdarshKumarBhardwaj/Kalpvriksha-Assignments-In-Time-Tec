@@ -64,6 +64,7 @@ double atofImplementaion(char string[])
         return sign * (result + fraction);
     }
 }
+
 int main()
 {
     char string[100];
