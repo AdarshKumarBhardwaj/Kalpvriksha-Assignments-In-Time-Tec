@@ -1,56 +1,115 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+
+#define MAX_LENGTH 200
+#define MAX_WORDS 100
 
 int stringLength(char *string)
 {
     int length = 0;
-    while (string[length] != '\0')
+    int index = 0;
+    while (string[index] != '\0')
     {
         length++;
+        index++;
     }
     return length;
 }
 
-void strcatImplementation(char string1[], char string2[], int bufferSize)
+void printLargestWords(char sentence[], int startIndexArray[], int lastIndexArray[], int dims[])
 {
-    int lengthOfString1 = stringLength(string1);
-    int lengthOfString2 = stringLength(string2);
-
-    int canConcatenate = 1;
-
-    if (lengthOfString1 + lengthOfString2 >= bufferSize)
+    int wordCount = dims[0];
+    int targetLength = dims[1];
+    for (int index1 = 0; index1 < wordCount; index1++)
     {
-        canConcatenate = 0;
-        printf("Error: Buffer overflow.\n");
+        int length = lastIndexArray[index1] - startIndexArray[index1] + 1;
+        if (length == targetLength)
+        {
+            for (int index2 = startIndexArray[index1]; index2 <= lastIndexArray[index1]; index2++)
+            {
+                printf("%c", sentence[index2]);
+            }
+            printf("\n");
+        }
+    }
+}
+
+void printSmallestWords(char sentence[], int startIndexArray[], int lastIndexArray[], int dims[])
+{
+    int wordCount = dims[0];
+    int targetLength = dims[2];
+    for (int index1 = 0; index1 < wordCount; index1++)
+    {
+        int length = lastIndexArray[index1] - startIndexArray[index1] + 1;
+        if (length == targetLength)
+        {
+            for (int index2 = startIndexArray[index1]; index2 <= lastIndexArray[index1]; index2++)
+            {
+                printf("%c", sentence[index2]);
+            }
+            printf("\n");
+        }
+    }
+}
+
+void findLongestAndShortestWords(char sentence[])
+{
+    int startIndexArray[MAX_WORDS];
+    int lastIndexArray[MAX_WORDS];
+    int wordCount = 0;
+
+    char *token = strtok(sentence, " \n");
+    while (token != NULL)
+    {
+        int startIndex = token - sentence;
+        int length = stringLength(token);
+
+        startIndexArray[wordCount] = startIndex;
+        lastIndexArray[wordCount] = startIndex + length - 1;
+        wordCount++;
+
+        token = strtok(NULL, " \n");
     }
 
-    if (canConcatenate)
+    if (wordCount == 0)
     {
-        int index1 = lengthOfString1;
-        int index2 = 0;
-        while (string2[index2] != '\0')
+        printf("No word found in the input.\n");
+    }
+    else
+    {
+        int longestLength = 0;
+        int smallestLength = MAX_LENGTH;
+
+        for (int index = 0; index < wordCount; index++)
         {
-            string1[index1++] = string2[index2++];
+            int length = lastIndexArray[index] - startIndexArray[index] + 1;
+            if (length > longestLength)
+            {
+                longestLength = length;
+            }
+            if (length < smallestLength)
+            {
+                smallestLength = length;
+            }
         }
-        string1[index1] = '\0';
-        printf("Concatenated String is: %s\n", string1);
+        int dims[] = {wordCount, longestLength, smallestLength};
+        printf("Longest Words:\n");
+        printLargestWords(sentence, startIndexArray, lastIndexArray, dims);
+
+        printf("Shortest Words:\n");
+        printSmallestWords(sentence, startIndexArray, lastIndexArray, dims);
     }
 }
 
 int main()
 {
-    char string1[100];
-    char string2[100];
+    char sentence[MAX_LENGTH];
 
-    printf("Enter the Original String\n");
-    fgets(string1, sizeof(string1), stdin);
-    string1[strcspn(string1, "\n")] = '\0';
+    printf("Enter the sentence:\n");
+    fgets(sentence, sizeof(sentence), stdin);
 
-    printf("Enter the String for concatenation\n");
-    fgets(string2, sizeof(string2), stdin);
-    string2[strcspn(string2, "\n")] = '\0';
-
-    strcatImplementation(string1, string2, sizeof(string1));
+    findLongestAndShortestWords(sentence);
 
     return 0;
 }
