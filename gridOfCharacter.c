@@ -3,7 +3,7 @@
 #include <string.h>
 
 int found = 0;
-void exploringMore(char **arr, char word[], int parameter[])
+void searchWord(char **arr, char word[], int parameter[])
 {
     int row = parameter[0];
     int column = parameter[1];
@@ -30,13 +30,13 @@ void exploringMore(char **arr, char word[], int parameter[])
             if (nrow >= 0 && ncol >= 0 && nrow < row && ncol < column && arr[nrow][ncol] == word[index])
             {
                 int newParams[] = {row, column, nrow, ncol, index + 1, length};
-                exploringMore(arr, word, newParams);
+                searchWord(arr, word, newParams);
             }
         }
     }
 }
 
-void existOrNot(char **arr, char wordToFound[], int dimension[])
+void isWordPresentInGrid(char **arr, char wordToFound[], int dimension[])
 {
     int row = dimension[0];
     int column = dimension[1];
@@ -48,7 +48,7 @@ void existOrNot(char **arr, char wordToFound[], int dimension[])
             if (arr[rowIndex][colIndex] == wordToFound[0])
             {
                 int parameter[] = {row, column, rowIndex, colIndex, 1, length};
-                exploringMore(arr, wordToFound, parameter);
+                searchWord(arr, wordToFound, parameter);
                 if (found)
                     return;
             }
@@ -93,7 +93,7 @@ int main()
         printf("\n");
     }
     int arguments[] = {row, column, length};
-    existOrNot(matrix, wordToFind, arguments);
+    isWordPresentInGrid(matrix, wordToFind, arguments);
     if (found)
     {
         printf("%s is present in the grid of characters\n", wordToFind);
