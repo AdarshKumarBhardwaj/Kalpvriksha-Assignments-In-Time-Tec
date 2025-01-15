@@ -4,7 +4,6 @@
 void horizontalFlip(int matrix[10][10],int row, int col);
 void verticalFlip(int matrix[10][10], int row, int col);
 
-
 int main() {
     int matrix[10][10];
     int res[10][10];
