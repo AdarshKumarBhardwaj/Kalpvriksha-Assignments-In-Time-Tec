@@ -112,7 +112,6 @@ struct Node *insertNodeAtPosition(struct Node *head)
         printf("Linked List after insertion at %d position \n", position);
         displayNode(head);
     }
-
     return head;
 }
 
@@ -338,3 +337,4 @@ int main()
 
     return 0;
 }
+
