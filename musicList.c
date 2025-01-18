@@ -2,26 +2,22 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAX_TRACK 100
-typedef struct
-{
+
+typedef struct {
     int id;
     char title[20];
     char artist[20];
     char genre[20];
     float duration;
-
 } MusicTrack;
+
 MusicTrack tracks[MAX_TRACK];
 int trackCount = 0;
 
-void addMusicTrack()
-{
-    if (trackCount >= MAX_TRACK)
-    {
+void addMusicTrack() {
+    if (trackCount >= MAX_TRACK) {
         printf("Cannot add more tracks. Maximum limit reached.\n");
-    }
-    else
-    {
+    } else {
         MusicTrack track;
         printf("Enter the id of track\n");
         scanf("%d", &track.id);
@@ -46,19 +42,15 @@ void addMusicTrack()
     }
 }
 
-void deleteMusicTrack()
-{
+void deleteMusicTrack() {
     int id;
     int found = 0;
     printf("Enter the id of music you want to delete\n");
     scanf("%d", &id);
 
-    for (int index = 0; index < trackCount; index++)
-    {
-        if (tracks[index].id == id)
-        {
-            for (int index1 = index; index1 < trackCount - 1; index1++)
-            {
+    for (int index = 0; index < trackCount; index++) {
+        if (tracks[index].id == id) {
+            for (int index1 = index; index1 < trackCount - 1; index1++) {
                 tracks[index1] = tracks[index1 + 1];
             }
             trackCount--;
@@ -67,64 +59,47 @@ void deleteMusicTrack()
             break;
         }
     }
-    if (!found)
-    {
+    if (!found) {
         printf("Track not found with this id\n");
     }
 }
 
-void displayAllMusicTrack()
-{
-    if (trackCount == 0)
-    {
+void displayAllMusicTrack() {
+    if (trackCount == 0) {
         printf("No track is available to display\n");
-    }
-    else
-    {
-        for (int index = 0; index < trackCount; index++)
-        {
-            printf("ID: %d ,Title: %s,Artist: %s,Genre: %s,Duration: %.2f \n ", tracks[index].id, tracks[index].title, tracks[index].artist, tracks[index].genre, tracks[index].duration);
+    } else {
+        for (int index = 0; index < trackCount; index++) {
+            printf("ID: %d ,Title: %s,Artist: %s,Genre: %s,Duration: %.2f \n", tracks[index].id, tracks[index].title, tracks[index].artist, tracks[index].genre, tracks[index].duration);
         }
     }
 }
 
-void searchMusicTrack()
-{
-    if (trackCount == 0)
-    {
+void searchMusicTrack() {
+    if (trackCount == 0) {
         printf("No track is available to search\n");
-    }
-    else
-    {
+    } else {
         int id;
         int found = 0;
         printf("Enter the id of track for search\n");
         scanf("%d", &id);
-        for (int index = 0; index < trackCount; index++)
-        {
-            if (tracks[index].id == id)
-            {
-                printf("ID: %d ,Title: %s,Artist: %s,Genre: %s,Duration: %.2f \n ", tracks[index].id, tracks[index].title, tracks[index].artist, tracks[index].genre, tracks[index].duration);
+        for (int index = 0; index < trackCount; index++) {
+            if (tracks[index].id == id) {
+                printf("ID: %d ,Title: %s,Artist: %s,Genre: %s,Duration: %.2f \n", tracks[index].id, tracks[index].title, tracks[index].artist, tracks[index].genre, tracks[index].duration);
                 found = 1;
                 break;
             }
         }
-        if (!found)
-        {
+        if (!found) {
             printf("Track not found with this id\n");
         }
     }
 }
 
-void sortAllMusicTrack()
-{
+void sortAllMusicTrack() {
     MusicTrack temp;
-    for (int index1 = 0; index1 < trackCount; index1++)
-    {
-        for (int index2 = index1 + 1; index2 < trackCount; index2++)
-        {
-            if (strcmp(tracks[index1].title, tracks[index2].title) > 0)
-            {
+    for (int index1 = 0; index1 < trackCount; index1++) {
+        for (int index2 = index1 + 1; index2 < trackCount; index2++) {
+            if (strcmp(tracks[index1].title, tracks[index2].title) > 0) {
                 temp = tracks[index1];
                 tracks[index1] = tracks[index2];
                 tracks[index2] = temp;
@@ -133,11 +108,10 @@ void sortAllMusicTrack()
     }
     printf("Music tracks sorted by Title successfully.\n");
 }
-int main()
-{
+
+int main() {
     int choice;
-    do
-    {
+    do {
         printf("\nMusic List Management System\n");
         printf("1. Add Music Track\n");
         printf("2. Delete Music Track\n");
@@ -147,8 +121,7 @@ int main()
         printf("6. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
-        switch (choice)
-        {
+        switch (choice) {
         case 1:
             addMusicTrack();
             break;
@@ -165,12 +138,13 @@ int main()
             sortAllMusicTrack();
             break;
         case 6:
-            printf("Existing from current program\n");
+            printf("Exiting program...\n");
             break;
-        case 7:
-            exit(0);
+        default:
+            printf("Invalid choice, please try again.\n");
         }
     } while (choice != 6);
+
     return 0;
 }
 
