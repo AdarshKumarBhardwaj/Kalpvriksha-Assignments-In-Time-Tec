@@ -1,74 +1,85 @@
 #include <stdio.h>
 #include <string.h>
-#include<stdlib.h> 
-#define MAX_STUDENTS 100
-#define MAX_GAMES 3
- 
-typedef struct {
-    char id[10];
-    int games[MAX_GAMES];
+
+typedef struct
+{
+    char studentId[10];
+    char gamesPlayed[3][10];
+    int gameCount;
 } Student;
- 
-int findStudentIndex(Student students[], int count, char *id) {
-    for (int index = 0; index < count; index++) {
-        if (strcmp(students[index].id, id) == 0) {
-            return index;
+
+int findStudentIndex(Student students[], int totalStudents, char *studentId)
+{
+    for (int studentIndex = 0; studentIndex < totalStudents; studentIndex++)
+    {
+        if (!strcmp(students[studentIndex].studentId, studentId))
+        {
+            return studentIndex;
         }
     }
     return -1;
 }
- 
-int compareStudents(const void *a, const void *b) {
-    return strcmp(((Student *)a)->id, ((Student *)b)->id);
-}
- 
-int main() {
-    int number;
-    printf("Enter the number of students: ");
-    scanf("%d", &number);
- 
-    char gameNames[MAX_GAMES][20] = {"badminton", "TT", "cricket"};
-    Student students[MAX_STUDENTS];
-    int studentCount = 0;
-    for (int index = 0; index < MAX_STUDENTS; index++) {
-        students[index].games[0] = students[index].games[1] = students[index].games[2] = 0;
-    }
- 
-    for (int index1 = 0; index1 < number; index1++) {
-        char id[10], game[20];
-        printf("Enter ID and game name: ");
-        scanf("%s %s", id, game);
- 
-        int studentIndex = findStudentIndex(students, studentCount, id);
- 
-        if (studentIndex == -1) {
-            strcpy(students[studentCount].id, id);
-            studentIndex = studentCount;
-            studentCount++;
+
+int main()
+{
+    Student students[100];
+    int totalUniqueStudents = 0;
+    int totalInputEntries;
+    char inputStudentId[10], inputGame[10];
+
+    printf("Enter the total number of student : ");
+    scanf("%d", &totalInputEntries);
+
+    for (int entryIndex = 0; entryIndex < totalInputEntries; entryIndex++)
+    {
+        printf("Enter student ID and game (separated by space): ");
+        scanf("%s %s", inputStudentId, inputGame);
+
+        int studentIndex = findStudentIndex(students, totalUniqueStudents, inputStudentId);
+
+        if (studentIndex == -1)
+        {
+            strcpy(students[totalUniqueStudents].studentId, inputStudentId);
+            strcpy(students[totalUniqueStudents].gamesPlayed[0], inputGame);
+            students[totalUniqueStudents].gameCount = 1;
+            totalUniqueStudents++;
         }
- 
-        for (int index2 = 0; index2 < MAX_GAMES; index2++) {
-            if (strcmp(gameNames[index2], game) == 0) {
-                students[studentIndex].games[index2] = 1;
-                break;
+        else
+        {
+            int gameAlreadyExists = 0;
+            for (int gameIndex = 0; gameIndex < students[studentIndex].gameCount; gameIndex++)
+            {
+                if (!strcmp(students[studentIndex].gamesPlayed[gameIndex], inputGame))
+                {
+                    gameAlreadyExists = 1;
+                    break;
+                }
+            }
+            if (!gameAlreadyExists && students[studentIndex].gameCount < 3)
+            {
+                strcpy(students[studentIndex].gamesPlayed[students[studentIndex].gameCount], inputGame);
+                students[studentIndex].gameCount++;
             }
         }
     }
- 
-    qsort(students, studentCount, sizeof(Student), compareStudents);
-    printf("Students enrolled in all three games: ");
-    for (int index = 0; index < studentCount; index++) {
-        if (students[index].games[0] && students[index].games[1] && students[index].games[2]) {
-            printf("%s ", students[index].id);
+
+    printf("Students who play exactly three games:\n");
+    for (int studentIndex = 0; studentIndex < totalUniqueStudents; studentIndex++)
+    {
+        if (students[studentIndex].gameCount == 3)
+        {
+            printf("%s ", students[studentIndex].studentId);
         }
     }
     printf("\n");
-    printf("All unique students enrolled in at least one game: ");
-    for (int index = 0; index < studentCount; index++) {
-        printf("%s ", students[index].id);
+
+    printf("All unique students:\n");
+    for (int studentIndex = 0; studentIndex < totalUniqueStudents; studentIndex++)
+    {
+        printf("%s ", students[studentIndex].studentId);
     }
     printf("\n");
- 
+
     return 0;
 }
 
