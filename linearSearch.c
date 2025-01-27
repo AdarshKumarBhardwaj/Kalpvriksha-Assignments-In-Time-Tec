@@ -49,3 +49,4 @@ int main()
     linearSearch(arr, size, element);
     return 0;
 }
+
