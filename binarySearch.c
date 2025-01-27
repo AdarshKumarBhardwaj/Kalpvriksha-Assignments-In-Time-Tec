@@ -61,3 +61,4 @@ int main()
     binarySearch(arr, size, element);
     return 0;
 }
+
