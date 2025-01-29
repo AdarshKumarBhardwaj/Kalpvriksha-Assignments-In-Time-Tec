@@ -23,6 +23,12 @@ void bubbleSort(int *arr, int size)
     }
 }
 
+void printArray(int arr[],int size){
+    for (int index = 0; index < size; index++)
+    {
+        printf("%d ", arr[index]);
+    }
+}
 int main()
 {
     int size;
@@ -37,17 +43,11 @@ int main()
     }
 
     printf("Array elements are\n");
-    for (int index = 0; index < size; index++)
-    {
-        printf("%d ", arr[index]);
-    }
+    printArray(arr,size);
 
     bubbleSort(arr, size);
     printf("\nArray elements after sorting are\n");
-    for (int index = 0; index < size; index++)
-    {
-        printf("%d ", arr[index]);
-    }
+    printArray(arr,size);
     return 0;
 }
 
