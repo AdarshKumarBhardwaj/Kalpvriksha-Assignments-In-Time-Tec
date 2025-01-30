@@ -1,67 +1,88 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define SIZE 5
 
-typedef struct {
+typedef struct
+{
     int stack[SIZE];
     int top;
-}
-Stack;
+} Stack;
 
-void initStack(Stack * s) {
-    s -> top = -1;
+void initStack(Stack *stackPtr)
+{
+    stackPtr->top = -1;
 }
 
-void push(Stack * s) {
+void push(Stack *stackPtr)
+{
     int data;
     printf("Enter data for push: ");
-    scanf("%d", & data);
-    if (s -> top == SIZE - 1) {
+    scanf("%d", &data);
+    if (stackPtr->top == SIZE - 1)
+    {
         printf("Stack Overflow\n");
-    } else {
-        s -> top++;
-        s -> stack[s -> top] = data;
+    }
+    else
+    {
+        stackPtr->top++;
+        stackPtr->stack[stackPtr->top] = data;
     }
 }
 
-void pop(Stack * s) {
-    if (s -> top == -1) {
+void pop(Stack *stackPtr)
+{
+    if (stackPtr->top == -1)
+    {
         printf("Stack Underflow\n");
-    } else {
-        int item = s -> stack[s -> top];
-        s -> top--;
+    }
+    else
+    {
+        int item = stackPtr->stack[stackPtr->top];
+        stackPtr->top--;
         printf("Popped element is %d\n", item);
     }
 }
 
-void peek(Stack * s) {
-    if (s -> top == -1) {
+void peek(Stack *stackPtr)
+{
+    if (stackPtr->top == -1)
+    {
         printf("Stack is empty\n");
-    } else {
-        printf("Top element is %d\n", s -> stack[s -> top]);
+    }
+    else
+    {
+        printf("Top element is %d\n", stackPtr->stack[stackPtr->top]);
     }
 }
 
-void isEmpty(Stack * s) {
-    if (s -> top == -1) {
+bool isEmpty(Stack *stackPtr)
+{
+    if (stackPtr->top == -1)
+    {
+        return true;
+    }
+    return false;
+}
+
+void findSize(Stack *stackPtr)
+{
+    if (stackPtr->top == -1)
+    {
         printf("Stack is empty\n");
-    } else {
-        printf("Stack is not empty\n");
+    }
+    else
+    {
+        printf("Size of stack is %d\n", stackPtr->top + 1);
     }
 }
 
-void findSize(Stack * s) {
-    if (s -> top == -1) {
-        printf("Stack is empty\n");
-    } else {
-        printf("Size of stack is %d\n", s -> top + 1);
-    }
-}
-
-int main() {
+int main()
+{
     Stack myStack;
-    initStack( & myStack);
+    bool empty;
+    initStack(&myStack);
     printf("1. Push element onto stack\n");
     printf("2. Pop an element from stack\n");
     printf("3. Find top element of stack\n");
@@ -69,25 +90,35 @@ int main() {
     printf("5. Find size of stack\n");
     printf("0. Exit\n");
     int choice;
-    do {
+    do
+    {
 
         printf("Enter your choice: ");
-        scanf("%d", & choice);
-        switch (choice) {
+        scanf("%d", &choice);
+        switch (choice)
+        {
         case 1:
-            push( & myStack);
+            push(&myStack);
             break;
         case 2:
-            pop( & myStack);
+            pop(&myStack);
             break;
         case 3:
-            peek( & myStack);
+            peek(&myStack);
             break;
         case 4:
-            isEmpty( & myStack);
+            empty = isEmpty(&myStack);
+            if (empty)
+            {
+                printf("Stack is empty\n");
+            }
+            else
+            {
+                printf("Stack is not empty\n");
+            }
             break;
         case 5:
-            findSize( & myStack);
+            findSize(&myStack);
             break;
         case 0:
             printf("Exiting...\n");
