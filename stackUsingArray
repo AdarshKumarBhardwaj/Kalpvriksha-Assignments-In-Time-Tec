@@ -1,0 +1,105 @@
+#include <stdio.h>
+
+#define size 5
+int stack[size];
+int top = -1;
+
+void push() {
+    int data;
+    printf("Enter data for push\n");
+    scanf("%d", & data);
+    if (top == size - 1) {
+        printf("Stack Overflow\n");
+    }
+    else {
+        top++;
+        stack[top] = data;
+    }
+}
+
+void pop() {
+    if (top == -1) {
+        printf("stack underflow\n");
+    }
+    else {
+        int item = stack[top];
+        top--;
+        printf("popped element is %d ", item);
+    }
+    printf("\n");
+}
+
+void peek() {
+    if (top == -1) {
+        printf("stack is empty\n");
+    } 
+    else {
+        printf("Top element is %d ", stack[top]);
+    }
+    printf("\n");
+}
+
+void isEmpty() {
+    if (top == -1) {
+        printf("stack is empty\n");
+    } 
+    else {
+        printf("stack is not empty\n");
+    }
+}
+
+void findSize() {
+    if (top == -1) {
+        printf("stack is empty\n");
+    } 
+    else {
+        int count = 0;
+        int first = top;
+        while (first >= 0) {
+            count++;
+            first--;
+        }
+        printf("size of stack is %d ", count);
+        printf("\n");
+    }
+}
+
+int main() {
+    int choice;
+    printf("1. push element in stack\n");
+    printf("2. pop an element from stack\n");
+    printf("3. find top element of stack\n");
+    printf("4. check stack is empty or not\n");
+    printf("5. find size of stack\n");
+    printf("for exit enter 0\n");
+    do {
+
+        printf("Enter your choice\n");
+        scanf("%d", & choice);
+        switch (choice) {
+        case 1:
+            push();
+            break;
+        case 2:
+            pop();
+            break;
+        case 3:
+            peek();
+            break;
+        case 4:
+            isEmpty();
+            break;
+        case 5:
+            findSize();
+            break;
+        case 0:
+            printf("Exiting...\n");
+            break;
+        default:
+            printf("Enter a valid choice\n");
+            break;
+        }
+    } while (choice != 0);
+    return 0;
+}
+
