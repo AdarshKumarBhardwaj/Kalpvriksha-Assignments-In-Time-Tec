@@ -9,24 +9,6 @@ struct Node
 };
 struct Node *top = NULL;
 
-void display()
-{
-    if (top == NULL)
-    {
-        printf("stack underflow\n");
-    }
-    else
-    {
-        struct Node *temp = top;
-        while (temp != NULL)
-        {
-            printf("%d ", temp->data);
-            temp = temp->next;
-        }
-    }
-    printf("\n");
-}
-
 void push()
 {
     struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
