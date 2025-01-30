@@ -7,22 +7,26 @@ struct Node
     struct Node *next;
 };
 
-struct Node *printLL(struct Node *head)
+void printList(struct Node *head)
 {
     if (head == NULL)
     {
         printf("List is Empty\n");
-        return NULL;
     }
-    struct Node *temp = head;
-    while (temp != NULL)
+    else
     {
-        printf("%d ", temp->data);
-        temp = temp->next;
+        struct Node *temp = head;
+        while (temp != NULL)
+        {
+            printf("%d ", temp->data);
+            temp = temp->next;
+        }
     }
+
     return head;
 }
-struct Node *createLL(struct Node *head)
+
+struct Node *createList(struct Node *head)
 {
     int data;
     printf("Enter value\n");
@@ -128,24 +132,28 @@ struct Node *mergeSort(struct Node *head)
 
 int findTemperature(struct Node *head, int temperature)
 {
+    int position = 1;
+    int foundPosition = -1;
+    struct Node *temp = head;
+
     if (head == NULL)
     {
         printf("List is Empty\n");
-        return -1;
     }
-    struct Node *temp = head;
-    int position = 1;
-    while (temp != NULL)
+    else
     {
-        if (temp->data == temperature)
+        while (temp != NULL)
         {
-            return position;
-            break;
+            if (temp->data == temperature)
+            {
+                foundPosition = position;
+                break;
+            }
+            temp = temp->next;
+            position++;
         }
-        temp = temp->next;
-        position++;
     }
-    return -1;
+    return foundPosition;
 }
 
 int main()
@@ -156,13 +164,13 @@ int main()
     scanf("%d", &number);
     for (int index = 0; index < number; index++)
     {
-        head = createLL(head);
+        head = createList(head);
     }
     printf("Temperature Values Before sorting\n");
-    head = printLL(head);
+    printList(head);
     head = mergeSort(head);
     printf("\nTemperature Values After sorting\n");
-    head = printLL(head);
+    printList(head);
 
     int temperature;
     printf("\nEnter Temperature you want to search\n");
