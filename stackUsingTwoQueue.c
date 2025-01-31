@@ -57,7 +57,7 @@ int front(struct Queue *queuePointer)
     {
         return queuePointer->arr[queuePointer->front];
     }
-    return -1; // Return an error value
+    return -1; 
 }
 
 void push(struct Stack *stackPointer)
