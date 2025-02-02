@@ -93,3 +93,4 @@ int main()
     initializeStack(&mySmalller);
     previousSmallerElements(&mySmalller, elements, sizeOfArray);
 }
+
