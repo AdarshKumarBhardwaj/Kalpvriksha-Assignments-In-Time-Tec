@@ -107,3 +107,4 @@ int main()
     prefixToInfix(&myprefix, string);
     return 0;
 }
+
