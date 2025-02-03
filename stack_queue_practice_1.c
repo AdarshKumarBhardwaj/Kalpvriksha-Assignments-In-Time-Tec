@@ -1,3 +1,9 @@
+// Prefix to Infix Conversion 
+// Problem Statement: You are given a string S of size N that represents the prefix form of a valid mathematical
+// expression. The string S contains only lowercase and uppercase alphabets as operands and the operators are
+//  +, -, *, /, %, and ^. Convert it to its infix form.
+
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
