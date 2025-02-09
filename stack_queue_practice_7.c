@@ -1,8 +1,7 @@
-// Problem Statement:-Reverse a string using stack data structure. 
+// Problem Statement:-Reverse a string using stack data structure.
 
-// Write a C program to reverse a given string using a stack. 
+// Write a C program to reverse a given string using a stack.
 // You can only use stack operations: push, pop, and isEmpty.
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,11 +15,6 @@ typedef struct
     char stack[size];
     int top;
 } string;
-
-void initializeStack(string *stringPointer)
-{
-    stringPointer->top = -1;
-}
 
 void push(string *stringPointer, char data)
 {
@@ -67,16 +61,16 @@ void reverseString(string *stringPointer, char string[])
         outputString[outputIndex++] = poppedElement;
     }
     outputString[outputIndex] = '\0';
-    printf(" Reversed String is %s ", outputString);
+    printf("Reversed String is %s ", outputString);
 }
 
 int main()
 {
     string myString;
+    myString.top = -1;
     char string[100];
     printf("Enter String\n");
     scanf("%s", string);
-    initializeStack(&myString);
     reverseString(&myString, string);
 }
 
