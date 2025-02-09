@@ -70,14 +70,14 @@ void search() {
 
 void display() {
     printf("Hash Table:\n");
-    for (int i = 0;i < HASHTABLE_SIZE;i++) {
-        if (hashTable[i] == NULL) {
+    for (int index = 0;index < HASHTABLE_SIZE;index++) {
+        if (hashTable[index] == NULL) {
             continue;
         }
         else {
             int first = 1;
-            printf("Index %d: ", i);
-            temp = hashTable[i];
+            printf("Index %d: ", index);
+            temp = hashTable[index];
             while (temp != NULL) {
                 if (!first)printf(" -> ");
                 printf("( %d,%d )", temp->key, temp->value);
