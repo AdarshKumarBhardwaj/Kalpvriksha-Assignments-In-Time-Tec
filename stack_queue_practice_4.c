@@ -89,8 +89,7 @@ int main()
 
     char string[STRING_SIZE];
     printf("Enter parenthesis string for check: ");
-    fgets(string, STRING_SIZE, stdin);
-    string[strcspn(string, "\n")] = '\0';
+    scanf("%s", string);
 
     bool isValid = checkParenthesis(&myStack, string);
     if (isValid)
