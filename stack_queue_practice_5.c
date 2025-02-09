@@ -1,19 +1,18 @@
-// Problem Satement:Browser History Management Using Stack 
-// Design and implement a browser history management system using the stack data structure in C. 
-// This system should simulate the behavior of storing and managing visited websites. 
-// Write a C program with options that let users interactively choose and perform operations mentioned in below tasks section.: 
+// Problem Satement:Browser History Management Using Stack
+// Design and implement a browser history management system using the stack data structure in C.
+// This system should simulate the behavior of storing and managing visited websites.
+// Write a C program with options that let users interactively choose and perform operations mentioned in below tasks section.:
 
-// Tasks: 
-// Implement the functions to perform the following operations on a stack: 
-// Add a Website (Push): Allow the user to add a new URL to the history. 
-// View History (Read): Display the list of all visited websites in reverse order of visits (most recent first). 
-// Edit a URL (Update): Provide an option to modify a specific URL in the history. 
-// Remove Recent Website (Pop): Delete the most recently visited website from history. 
-// Include additional functions for features such as: 
-// A Clear History option to delete all stored URLs. 
-// A Peek Function to view the most recently visited website without removing it. 
+// Tasks:
+// Implement the functions to perform the following operations on a stack:
+// Add a Website (Push): Allow the user to add a new URL to the history.
+// View History (Read): Display the list of all visited websites in reverse order of visits (most recent first).
+// Edit a URL (Update): Provide an option to modify a specific URL in the history.
+// Remove Recent Website (Pop): Delete the most recently visited website from history.
+// Include additional functions for features such as:
+// A Clear History option to delete all stored URLs.
+// A Peek Function to view the most recently visited website without removing it.
 
- 
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -25,11 +24,6 @@ typedef struct
     char stack[SIZE][SIZE];
     int top;
 } url;
-
-void initializeStack(url *urlPointer)
-{
-    urlPointer->top = -1;
-}
 
 void push(url *urlPointer)
 {
@@ -133,7 +127,7 @@ void peek(url *urlPointer)
 int main()
 {
     url myURL;
-    initializeStack(&myURL);
+    myURL.top = -1;
     int choice;
     printf("1. push url in stack\n");
     printf("2. Display all url\n");
