@@ -1,8 +1,7 @@
 // Sort a stack in ascending order.
-// Implement a function to sort a stack such that the smallest element is at the top. 
-// You can use only one additional stack as a temporary space. 
+// Implement a function to sort a stack such that the smallest element is at the top.
+// You can use only one additional stack as a temporary space.
 // You can only use stack operations: push, pop, and isEmpty
-
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -81,7 +80,7 @@ bool isTempStackEmpty(stack *stackPointer)
     return stackPointer->top2 == -1;
 }
 
-void reverseStack(stack *stackPointer)
+void sortStack(stack *stackPointer)
 {
     while (!isStackEmpty(stackPointer))
     {
@@ -114,6 +113,6 @@ int main()
         scanf("%d", &data);
         push1(&myStack, data);
     }
-    reverseStack(&myStack);
+    sortStack(&myStack);
 }
 
