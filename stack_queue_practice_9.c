@@ -67,6 +67,18 @@ char *dequeue(queue *queuePointer)
     return dequeuedElement;
 }
 
+int calculateBitSize(int number)
+{
+    int bitSize = 0;
+    int temp = number;
+    while (temp > 0)
+    {
+        temp /= 2;
+        bitSize++;
+    }
+    return bitSize;
+}
+
 void generateBinaryNumber(queue *queuePointer, int number)
 {
     char result[number][MAX_STRING_LENGTH];
@@ -96,13 +108,7 @@ void generateBinaryNumber(queue *queuePointer, int number)
         enqueue(queuePointer, number2);
     }
 
-    int bitSize = 0;
-    int temp = number;
-    while (temp > 0)
-    {
-        temp /= 2;
-        bitSize++;
-    }
+    int bitSize = calculateBitSize(number);
 
     for (int index = 0; index < number; index++)
     {
@@ -134,4 +140,6 @@ int main()
 
     return 0;
 }
+
+
 
