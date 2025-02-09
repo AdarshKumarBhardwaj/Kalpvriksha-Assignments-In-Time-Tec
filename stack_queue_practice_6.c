@@ -39,6 +39,17 @@ void initializeQueue(PrintQueue *queuePointer)
     queuePointer->jobCounter = 1;
 }
 
+void customStrcpy(char *dest, const char *src)
+{
+    int i = 0;
+    while (src[i] != '\0')
+    {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+}
+
 void enqueue(PrintQueue *queuePointer)
 {
     char documentName[MAX_NAME_LENGTH];
@@ -62,13 +73,13 @@ void enqueue(PrintQueue *queuePointer)
         queuePointer->front = 0;
         queuePointer->rear = 0;
         queuePointer->jobs[queuePointer->rear].pages = pages;
-        strcpy(queuePointer->jobs[queuePointer->rear].documentName, documentName);
+        customStrcpy(queuePointer->jobs[queuePointer->rear].documentName, documentName);
     }
     else
     {
         queuePointer->rear++;
         queuePointer->jobs[queuePointer->rear].pages = pages;
-        strcpy(queuePointer->jobs[queuePointer->rear].documentName, documentName);
+        customStrcpy(queuePointer->jobs[queuePointer->rear].documentName, documentName);
     }
 }
 
@@ -81,7 +92,7 @@ void dequeue(PrintQueue *queuePointer)
     }
     char result[MAX_NAME_LENGTH];
     int page = queuePointer->jobs[queuePointer->front].pages;
-    strcpy(result, queuePointer->jobs[queuePointer->front].documentName);
+    customStrcpy(result, queuePointer->jobs[queuePointer->front].documentName);
     printf("Popped job is %s %d \n", result, page);
     if (queuePointer->front == queuePointer->rear)
     {
@@ -147,12 +158,12 @@ void updateSpecificjob(PrintQueue *queuePointer)
 
             printf("Enter updated page numbers\n");
             scanf("%d", &updatedPage);
-            strcpy(queuePointer->jobs[targetIndex].documentName, updatedjob);
+            customStrcpy(queuePointer->jobs[targetIndex].documentName, updatedjob);
             queuePointer->jobs[targetIndex].pages = updatedPage;
         }
         else
         {
-            printf("Enterred job is not Present in queue\n");
+            printf("Entered job is not present in queue\n");
         }
     }
 }
@@ -235,14 +246,15 @@ int main()
             deleteSpecificjob(&myQueue);
             break;
         case 0:
-            printf("Existing\n");
+            printf("Exiting\n");
             break;
         default:
-            printf("Enter Vlaid Choice\n");
+            printf("Enter a Valid Choice\n");
             break;
         }
     } while (choice != 0);
 
     return 0;
 }
+
 
