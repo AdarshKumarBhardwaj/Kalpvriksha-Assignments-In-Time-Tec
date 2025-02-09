@@ -57,11 +57,16 @@ void dequeue(struct Queue *queuePointer)
 
 int front(struct Queue *queuePointer)
 {
+    int result = -1; // Default result for empty queue
     if (!isEmptyQueue(queuePointer))
     {
-        return queuePointer->arr[queuePointer->front];
+        result = queuePointer->arr[queuePointer->front];
     }
-    return -1; 
+    else
+    {
+        printf("Queue is empty.\n");
+    }
+    return result;
 }
 
 void push(struct Stack *stackPointer)
@@ -108,15 +113,17 @@ int peek(struct Stack *stackPointer)
     return front(&stackPointer->Queue1);
 }
 
-void displayStack(struct Stack *stackPointer){
-   if (isEmptyQueue(&stackPointer->Queue1))
+void displayStack(struct Stack *stackPointer)
+{
+    if (isEmptyQueue(&stackPointer->Queue1))
     {
         printf("Stack is empty.\n");
-    } 
+    }
     else
     {
-        for(int index=stackPointer->Queue1.front;index<=stackPointer->Queue1.rear;index++){
-            printf("%d ",stackPointer->Queue1.arr[index]);
+        for (int index = stackPointer->Queue1.front; index <= stackPointer->Queue1.rear; index++)
+        {
+            printf("%d ", stackPointer->Queue1.arr[index]);
         }
     }
     printf("\n");
@@ -129,15 +136,15 @@ int main()
     myStack.Queue2.front = myStack.Queue2.rear = -1;
     int numberOfOperation;
     int choice;
-    printf("Enter number of operation\n");
-    scanf("%d",&numberOfOperation);
-    
+    printf("Enter number of operations\n");
+    scanf("%d", &numberOfOperation);
+
     printf("1. Push element onto stack\n");
     printf("2. Pop element from stack\n");
     printf("3. Find top element of stack\n");
     printf("4. Display Stack\n");
     printf("0. Exit\n");
-    while(numberOfOperation)
+    while (numberOfOperation)
     {
         printf("Enter choice: ");
         scanf("%d", &choice);
