@@ -34,12 +34,16 @@ void push(prefix *prefixPointer, char data[])
 
 bool pop(prefix *prefixPointer, char result[])
 {
-    if (prefixPointer->top == -1)
+    bool status = false;
+
+    if (prefixPointer->top != -1)
     {
-        return false;
+        strcpy(result, prefixPointer->stack[prefixPointer->top]);
+        prefixPointer->top--;
+        status = true;
     }
-    strcpy(result, prefixPointer->stack[prefixPointer->top--]);
-    return true;
+
+    return status;
 }
 
 bool isEmpty(prefix *prefixPointer)
@@ -52,10 +56,11 @@ bool isOperator(char ch)
     return (ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '^');
 }
 
-void prefixToInfix(prefix *prefixPointer, char string[])
+bool prefixToInfix(prefix *prefixPointer, char string[], char result[])
 {
     int length = strlen(string);
     initializeStack(prefixPointer);
+    bool errorOccurred = false;
 
     for (int index = length - 1; index >= 0; index--)
     {
@@ -69,12 +74,13 @@ void prefixToInfix(prefix *prefixPointer, char string[])
         }
         else if (isOperator(string[index]))
         {
-            char op1[SIZE], op2[SIZE], result[SIZE];
+            char op1[SIZE], op2[SIZE];
 
             if (!pop(prefixPointer, op1) || !pop(prefixPointer, op2))
             {
                 printf("Error: Invalid prefix expression\n");
-                return;
+                errorOccurred = true;
+                break;
             }
 
             strcpy(result, "(");
@@ -88,29 +94,48 @@ void prefixToInfix(prefix *prefixPointer, char string[])
         else
         {
             printf("Error: Invalid character '%c' in expression\n", string[index]);
-            return;
+            errorOccurred = true;
+            break;
         }
+    }
+
+    if (errorOccurred)
+    {
+        return false;
     }
 
     char finalResult[SIZE];
     if (!pop(prefixPointer, finalResult) || !isEmpty(prefixPointer))
     {
         printf("Error: Invalid prefix expression\n");
-        return;
+        return false;
     }
 
-    printf("Infix Expression: %s\n", finalResult);
+    strcpy(result, finalResult);
+    return true;
 }
 
 int main()
 {
     prefix myprefix;
     char string[SIZE];
+    char result[SIZE];
 
     printf("Enter prefix expression: ");
     scanf("%s", string);
 
-    prefixToInfix(&myprefix, string);
+    bool success = prefixToInfix(&myprefix, string, result);
+
+    if (success)
+    {
+        printf("Infix Expression: %s\n", result);
+    }
+    else
+    {
+        printf("Invalid prefix expression.\n");
+    }
+
     return 0;
 }
+
 
