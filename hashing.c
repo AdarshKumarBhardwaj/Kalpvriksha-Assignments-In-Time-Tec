@@ -1,70 +1,71 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <stdlib.h>
+#include <ctype.h>
 
-#define HashTableSize 10
+#define HASH_TABLE_SIZE 10
+#define NUMBER_OF_WORDS 10
+#define WORD_SIZE 20
 
-struct Node {
-    char name[20];
+typedef struct Node {
+    char word[WORD_SIZE];
     struct Node *next;
-};
+} HashNode;
 
-struct Node *hashtable[HashTableSize];
+bool isAnagram(const char *str1, const char *str2) {
+    int count1[26] = {0};
+    int count2[26] = {0};
+    int index;
 
-void sortString(char *str) {
-    int n = strlen(str);
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if (str[i] > str[j]) {
-                char temp = str[i];
-                str[i] = str[j];
-                str[j] = temp;
-            }
+    for (index = 0; str1[index] != '\0'; index++) {
+        count1[str1[index] - 'a']++;
+    }
+
+    for (index = 0; str2[index] != '\0'; index++) {
+        count2[str2[index] - 'a']++;
+    }
+
+    for (index = 0; index < 26; index++) {
+        if (count1[index] != count2[index]) {
+            return false;
         }
     }
+
+    return true;
 }
 
-int hash(char *str) {
-    char sortedStr[20];
-    strcpy(sortedStr, str);
-    sortString(sortedStr);
-    
-    int sum = 0;
-    for (int i = 0; i < strlen(sortedStr); i++) {
-        sum += sortedStr[i];
-    }
-    return sum % HashTableSize;
-}
+void insertIntoTable(char words[][WORD_SIZE], int size) {
+    HashNode *hashTable[HASH_TABLE_SIZE] = {NULL};
 
-void insertInHashtable(char word[][20], int number) {
-    for (int i = 0; i < number; i++) {
-        int index = hash(word[i]);
-        
-        struct Node *newNode = malloc(sizeof(struct Node));
-        strcpy(newNode->name, word[i]);
-        newNode->next = NULL;
-
-        if (hashtable[index] == NULL) {
-            hashtable[index] = newNode;
-        } else {
-            struct Node *temp = hashtable[index];
-            while (temp->next != NULL) {
-                temp = temp->next;
+    for (int i = 0; i < size; i++) {
+        for (int index = 0; index < HASH_TABLE_SIZE; index++) {
+            if (hashTable[index] == NULL) {
+                HashNode *newNode = (HashNode *)malloc(sizeof(HashNode));
+                strcpy(newNode->word, words[i]);
+                newNode->next = NULL;
+                hashTable[index] = newNode;
+                break;
+            } 
+            else if (isAnagram(words[i], hashTable[index]->word)) {
+                HashNode *newNode = (HashNode *)malloc(sizeof(HashNode));
+                strcpy(newNode->word, words[i]);
+                newNode->next = hashTable[index]->next;
+                hashTable[index]->next = newNode;
+                break;
             }
-            temp->next = newNode;
         }
-    }
-}
 
-void printAnagramGroups() {
-    int j=0;
-    for (int i = 0; i < HashTableSize; i++) {
-        if (hashtable[i] != NULL) {
+       
+    }
+
+   int j=0;
+    for (int index = 0; index < HASH_TABLE_SIZE; index++) {
+        if (hashTable[index] != NULL) {
             printf("Anagram Group %d: ",++j);
-            struct Node *temp = hashtable[i];
+            HashNode *temp = hashTable[index];
             while (temp != NULL) {
-                printf("%s", temp->name);
+                printf("%s", temp->word);
                 if (temp->next != NULL) printf(" -> ");
                 temp = temp->next;
             }
@@ -74,22 +75,19 @@ void printAnagramGroups() {
 }
 
 int main() {
-    int number;
-    printf("Enter number of words to insert: ");
-    scanf("%d", &number);
+    int n;
+    char words[NUMBER_OF_WORDS][WORD_SIZE];
 
-    char word[20][20];
-    printf("Enter Words:\n");
-    for (int index = 0; index < number; index++) {
-        scanf("%s", word[index]);
+    printf("Enter number of words: ");
+    scanf("%d", &n);
+
+
+    printf("Enter words:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%s", words[i]);
     }
 
-    insertInHashtable(word, number);
-    
-    printAnagramGroups();
-
-   
+    insertIntoTable(words, n);
 
     return 0;
 }
-
