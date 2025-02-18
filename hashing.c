@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <ctype.h>
 
 #define HASH_TABLE_SIZE 10
 #define NUMBER_OF_WORDS 10
