@@ -4,16 +4,16 @@
 struct Node
 {
     int data;
-    struct Node *next;
+    struct Node* next;
 };
 
-struct Node *printList(struct Node *head)
+struct Node* printList(struct Node* head)
 {
     if (head == NULL)
     {
         return NULL;
     }
-    struct Node *temp = head;
+    struct Node* temp = head;
     while (temp != NULL)
     {
         printf("%d ", temp->data);
@@ -21,31 +21,32 @@ struct Node *printList(struct Node *head)
     }
     return head;
 }
-struct Node *createList(struct Node *head)
+struct Node* createList(struct Node* head)
 {
     int value;
     printf("Enter value\n");
     scanf("%d", &value);
-    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = value;
     newNode->next = NULL;
-    struct Node *temp;
+    struct Node* temp;
     if (head == NULL)
     {
-        temp = head = newNode;
+        head = newNode;
     }
     else
     {
         temp->next = newNode;
-        temp = newNode;
+
     }
+    temp = newNode;
     return head;
 }
 
-struct Node *findKthNode(struct Node *head, int k)
+struct Node* findKthNode(struct Node* head, int k)
 {
     k--;
-    struct Node *temp = head;
+    struct Node* temp = head;
     while (k > 0 && temp != NULL)
     {
         k--;
@@ -54,11 +55,11 @@ struct Node *findKthNode(struct Node *head, int k)
     return temp;
 }
 
-struct Node *reverse(struct Node *head)
+struct Node* reverse(struct Node* head)
 {
-    struct Node *prev = NULL;
-    struct Node *curr = head;
-    struct Node *next;
+    struct Node* prev = NULL;
+    struct Node* curr = head;
+    struct Node* next;
     while (curr)
     {
         next = curr->next;
@@ -69,19 +70,19 @@ struct Node *reverse(struct Node *head)
     return prev;
 }
 
-struct Node *reverseKgroups(struct Node *head, int k)
+struct Node* reverseKgroups(struct Node* head, int k)
 {
     if (head == NULL)
     {
         return NULL;
     }
 
-    struct Node *temp = head;
-    struct Node *prevHead = NULL;
+    struct Node* temp = head;
+    struct Node* prevHead = NULL;
 
     while (temp != NULL)
     {
-        struct Node *kthNode = findKthNode(temp, k);
+        struct Node* kthNode = findKthNode(temp, k);
         if (!kthNode)
         {
             if (prevHead)
@@ -90,9 +91,9 @@ struct Node *reverseKgroups(struct Node *head, int k)
             }
             break;
         }
-        struct Node *nextNode = kthNode->next;
+        struct Node* nextNode = kthNode->next;
         kthNode->next = NULL;
-        struct Node *reverseNode = reverse(temp);
+        struct Node* reverseNode = reverse(temp);
 
         if (temp == head)
         {
@@ -109,7 +110,7 @@ struct Node *reverseKgroups(struct Node *head, int k)
 }
 int main()
 {
-    struct Node *head = NULL;
+    struct Node* head = NULL;
     int number;
     printf("Enter number of nodes you want to insert\n");
     scanf("%d", &number);
@@ -128,4 +129,3 @@ int main()
 
     return 0;
 }
-
