@@ -70,20 +70,20 @@ void updateSpecificUrl(url *urlPointer)
 {
     char targetUrl[100];
     char updatedUrl[100];
-    int targetIndex;
-    bool isFound = false;
+    int targetIndex=-1;
+    // bool isFound = false;
     printf("Enter the Url you want to edit\n");
     scanf("%s", targetUrl);
     for (int index = urlPointer->top; index >= 0; index--)
     {
         if (strcmp(targetUrl, urlPointer->stack[index]) == 0)
         {
-            isFound = true;
+            // isFound = true;
             targetIndex = index;
             break;
         }
     }
-    if (isFound)
+    if ( targetIndex!=-1)
     {
         printf("Enter the updated URL\n");
         scanf("%s", updatedUrl);
