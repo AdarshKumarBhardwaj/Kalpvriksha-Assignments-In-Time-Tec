@@ -7,7 +7,7 @@ struct node {
     int key;
     int value;
     struct node* next;
-}*hashTable[HASHTABLE_SIZE], * newNode, * temp;
+}*hashTable[HASHTABLE_SIZE];
 
 void insert() {
     int value, key;
@@ -21,7 +21,7 @@ void insert() {
     }
     int index = key % HASHTABLE_SIZE;
 
-    newNode = (struct node*)malloc(sizeof(struct node));
+    struct node *newNode = (struct node*)malloc(sizeof(struct node));
     newNode->key = key;
     newNode->value = value;
     newNode->next = NULL;
@@ -30,7 +30,7 @@ void insert() {
         hashTable[index] = newNode;
     }
     else {
-        temp = hashTable[index];
+        struct node* temp = hashTable[index];
         while (temp->next != NULL) {
             temp = temp->next;
         }
@@ -49,7 +49,7 @@ void search() {
         found = 0;
     }
     else {
-        temp = hashTable[index];
+        struct node* temp = hashTable[index];
         while (temp != NULL) {
             if (temp->key == key) {
                 found = 1;
@@ -77,7 +77,7 @@ void display() {
         else {
             int first = 1;
             printf("Index %d: ", index);
-            temp = hashTable[index];
+            struct node *temp = hashTable[index];
             while (temp != NULL) {
                 if (!first)printf(" -> ");
                 printf("( %d,%d )", temp->key, temp->value);
@@ -100,7 +100,7 @@ void delete() {
         printf("Key %d not present\n");
     }
     else {
-        temp = hashTable[index];
+        struct node *temp = hashTable[index];
         while (temp != NULL) {
             if (temp->key == key) {
                 if (prev == NULL) {
@@ -120,10 +120,9 @@ void delete() {
 }
 
 int main() {
-    int choice, numberOfOperation;
-    scanf("%d", &numberOfOperation);
+    int choice;
 
-    while (numberOfOperation) {
+    while (1) {
         printf("Enter your Choice: ");
         scanf("%d", &choice);
         switch (choice) {
@@ -140,7 +139,6 @@ int main() {
         default:printf("Wrong Choice\n");
             break;
         }
-        numberOfOperation--;
     }
 }
 
