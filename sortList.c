@@ -40,6 +40,10 @@ struct Node *printList(struct Node *head) {
 
 struct Node *createList(struct Node *head) {
     struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    if(newNode ==NULL){
+        printf("Memory not allocated for newnode\n");
+        return head;
+    }
     printf("Enter name: ");
     scanf("%s", newNode->name); 
     getchar();
